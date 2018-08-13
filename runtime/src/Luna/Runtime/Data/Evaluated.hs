@@ -32,7 +32,7 @@ getObjectMethodMap :: Units -> IR.Qualified -> IR.Name -> Luna.DefMap
 getObjectMethodMap units modName className = map where
     mayMap = units ^? wrapped . ix modName . classes . ix className . meths
     map = fromJust err mayMap
-    err = error $ "Can't find method map for: " <> convert modName
+    ~err = error $ "Can't find method map for: " <> convert modName
                                                 <> "."
                                                 <> convert className
 

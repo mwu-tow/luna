@@ -87,24 +87,26 @@ tryDispatchMethods (m : ms) s = do
         Just r  -> r >>= tryDispatchMethods ms
 
 applyFun :: Value -> Value -> Value
-applyFun f a = do
-    fun  <- f
-    case fun of
+applyFun f a = go f where
+    go = \f -> f >>= \case
         Error    e  -> Luna.throw e
-        Susp     t  -> applyFun t a
-        Thunk    t  -> applyFun t a
+        Susp     t  -> go t
+        Thunk    t  -> go t
         Function f' -> f' a
         Native   _  -> Luna.throw "Object is not a function."
         Cons     _  -> Luna.throw "Object is not a function."
+{-# INLINE applyFun #-}
 
 force :: Value -> Value
 force = (>>= force')
 {-# INLINE force #-}
 
 force' :: Data -> Value
-force' (Thunk a) = force a
-force' (Susp  a) = force a
-force' x = pure x
+force' = \case
+    Thunk a -> force a
+    Susp  a -> force a
+    x -> pure x
+{-# INLINE force' #-}
 
 mkThunk :: Value -> Data
 mkThunk = Thunk . force
@@ -119,5 +121,7 @@ forceThunks = (>>= forceThunks')
 {-# INLINE forceThunks #-}
 
 forceThunks' :: Data -> Value
-forceThunks' (Thunk a) = forceThunks a
-forceThunks' x = pure x
+forceThunks' = \case
+    Thunk a -> forceThunks a
+    x -> pure x
+{-# INLINE forceThunks' #-}

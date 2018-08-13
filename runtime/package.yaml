@@ -17,6 +17,19 @@ dependencies:
     - mtl
     - prologue
 
+executables:
+    preluna:
+        main: Main.hs
+        source-dirs: exe
+        ghc-options: -threaded "-with-rtsopts=-N -T"
+        dependencies:
+            - base
+            - layered-state
+            - luna-core
+            - luna-runtime
+            - luna-future
+            - prologue
+
 default-extensions:
     - AllowAmbiguousTypes
     - ApplicativeDo

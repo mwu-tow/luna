@@ -1,5 +1,4 @@
-{-# LANGUAGE UndecidableInstances #-}
-{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE NoStrict #-}
 
 module Luna.Runtime.Data where
 
@@ -125,3 +124,4 @@ forceThunks' = \case
     Thunk a -> forceThunks a
     x -> pure x
 {-# INLINE forceThunks' #-}
+

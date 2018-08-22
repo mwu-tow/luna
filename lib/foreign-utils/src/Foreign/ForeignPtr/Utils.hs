@@ -39,3 +39,4 @@ getAndMapandGetForeignPtr fptr f = liftIO $ withForeignPtr fptr $ \ptr -> do
 
 mapForeignPtr :: (Storable a, MonadIO m) => ForeignPtr a -> (a -> a) -> m ()
 mapForeignPtr fptr f = () <$ getAndMapForeignPtr fptr f ; {-# INLINE mapForeignPtr #-}
+

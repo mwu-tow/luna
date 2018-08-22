@@ -1,5 +1,5 @@
 {-# LANGUAGE NoMonoLocalBinds        #-}
-{-# LANGUAGE Strict                  #-}
+{-# LANGUAGE Strict #-}
 {-# LANGUAGE UndecidableInstances    #-}
 {-# LANGUAGE UndecidableSuperClasses #-}
 
@@ -238,3 +238,4 @@ instance {-# OVERLAPPABLE #-} (lst ~ [a])
 instance (lst ~ [a]) => FoldElem (ToListByType__ a) a lst where
     foldElem = (:)
     {-# INLINE foldElem #-}
+

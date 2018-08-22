@@ -1,5 +1,5 @@
 {-# LANGUAGE NoMonoLocalBinds        #-}
-{-# LANGUAGE Strict                  #-}
+{-# LANGUAGE Strict #-}
 {-# LANGUAGE UndecidableInstances    #-}
 {-# LANGUAGE UndecidableSuperClasses #-}
 
@@ -138,3 +138,4 @@ everything = \combine f ->
         go x = gfoldl' @(Rec c) (\a y -> combine a (go y)) (f x) x
     in  go
 {-# INLINE everything #-}
+

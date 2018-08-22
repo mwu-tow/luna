@@ -1,3 +1,5 @@
+{-# LANGUAGE Strict #-}
+
 module Luna.Shell.Option (module Luna.Shell.Option, module X) where
 
 import Options.Applicative as X ( execParser, info, fullDesc, progDesc, header
@@ -8,7 +10,7 @@ import Prologue hiding (init)
 import qualified Luna.Shell.Command   as Command
 import qualified Options.Applicative  as Options
 
-import Luna.Shell.Command   (Command)
+import Luna.Shell.Command   (Command, CommandOpts)
 import Options.Applicative  (Parser)
 
 
@@ -19,8 +21,15 @@ import Options.Applicative  (Parser)
 
 -- === API === --
 
-parseLunaCommand :: Parser Command
-parseLunaCommand = Options.hsubparser
+topLevel :: Parser CommandOpts
+topLevel = version <|> lunaCommand
+
+version :: Parser CommandOpts
+version = Options.flag' Command.ShowVersion (Options.long "version"
+    <> Options.help "Print the current version of Luna.")
+
+lunaCommand :: Parser CommandOpts
+lunaCommand = Command.Exec <$> Options.hsubparser
     (  Options.command "run" (Options.info run
         (Options.progDesc "Execute a luna package, or standalone file."))
     <> Options.command "init" (Options.info init

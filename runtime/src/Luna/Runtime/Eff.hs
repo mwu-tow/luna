@@ -1,4 +1,4 @@
-{-# LANGUAGE Strict #-}
+ {-# LANGUAGE Strict #-}
 
 module Luna.Runtime.Eff where
 
@@ -68,3 +68,4 @@ runError = \case
 throw :: Text -> Eff a
 throw = unsafeLiftIO . Exception.throwIO . Exception
 {-# INLINE throw #-}
+

@@ -1,3 +1,5 @@
+{-# LANGUAGE Strict #-}
+
 module Luna.Package.Configuration.License.Data where
 
 import Prologue
@@ -50,9 +52,6 @@ getLicenseText license = do
 
     filePath    <- liftIO . Paths.getDataFileName $ licenseFolder </> fileName
     fileExists  <- liftIO $ Directory.doesFileExist filePath
-
-    print filePath
-    print fileExists
 
     if not fileExists then pure "" else liftIO $ readFile filePath
 

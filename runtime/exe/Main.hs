@@ -36,7 +36,7 @@ intShow = Def "Std.Base" "intShow"
 
 main = do
     progXD <- read =<< readFile "in.preluna"
-    let prog2  = [ Var 0 <~ Def "X" "test" $$ Number 100000
+    let prog2  = [ Var 0 <~ Def "X" "test" $$ Number 10000000
                  , putStr $$ intShow $$ Var 0
                  ]
     s <- addModFun "X" "test" progXD Std.std

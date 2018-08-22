@@ -29,8 +29,8 @@ data Object a = Object { _unitName    :: IR.Qualified
 data Data = Native   (Object Any)
           | Cons     (Object Constructor)
           | Function (Value -> Value)
-          | Susp     Value
-          | Thunk    Value
+          | Susp     Value -- Used for suspended computations that aren't forced
+          | Thunk    Value -- Thunk values are forced on a call-by-need basis
           | Error    Text
 
 type Value = Luna.Eff Data

@@ -1,3 +1,14 @@
+-----------------------------------------------------------------------------
+-- When using this module please keep in mind that it will not, by default,
+-- catch any exceptions thrown in IO. To catch exceptions thrown in IO, please
+-- use `rethrowFromIO` in `Control.Monad.Exception.IO` to lift these exceptions
+-- into the MonadException framework.
+--
+-- If you are getting an overlapping instances error in conjunction with use of
+-- `rethrowFromIO`, you are probably attempting to rethrow `SomeException`. This
+-- is considered bad practice, so please rethrow something more specific.
+-----------------------------------------------------------------------------
+
 {-# LANGUAGE NoStrict #-}
 {-# LANGUAGE NoStrictData #-}
 {-# LANGUAGE PolyKinds #-}
@@ -11,7 +22,6 @@ import Prelude
 import qualified Control.Exception as IO
 
 import Control.Exception          (Exception, SomeException, toException)
-import Control.Lens.Utils
 import Control.Monad              (join)
 import Control.Monad.Trans        (MonadTrans, lift)
 import Control.Monad.Trans.Except (ExceptT, runExceptT, throwE)
@@ -52,7 +62,7 @@ type instance Throws (e :: [Type]) m = MonadExceptions e m
 type instance Throws (e :: Type)   m = MonadException  e m
 
 
--- === Intsances === --
+-- === Instances === --
 
 instance {-# OVERLAPPABLE #-}
     (Monad m, Monad (t m), MonadTrans t, MonadException e m)

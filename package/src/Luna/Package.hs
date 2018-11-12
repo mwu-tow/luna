@@ -341,9 +341,9 @@ rename src target = do
     let origProjPath = target </> Name.configDirectory </> origProjFile
         newProjPath  = target </> Name.configDirectory </> newProjFile
 
-    -- TODO [Ara] Fix MonadException and move back to that Exception.CatchAll
-    liftIO . Unsafe.handle (\(e :: SomeException) ->
-            Exception.throw $ CannotRenameFile newProjPath e)
+    Exception.catch (\(e :: Unsafe.IOException) ->
+            Exception.throw . CannotRenameFile newProjPath $ toException e)
+        . Exception.rethrowFromIO @Unsafe.IOException
         $ Directory.renameFile (Path.fromAbsFile origProjPath)
         (Path.fromAbsFile newProjPath)
 
@@ -363,10 +363,11 @@ rename src target = do
             cfg & Local.projectName .~ newName
 
     -- Bubble up an error if the original directory can't be removed.
-    liftIO . Unsafe.handle (\(e :: SomeException) ->
-            pure (target, Just (CannotDelete src e))) $ do
-        Directory.removeDirectoryRecursive srcPath
-        pure (target, Nothing)
+    Exception.catch (\(e :: Unsafe.IOException) ->
+            pure (target, Just . CannotDelete src $ toException e))
+        . Exception.rethrowFromIO @Unsafe.IOException $ do
+            Directory.removeDirectoryRecursive srcPath
+            pure (target, Nothing)
 
     pure (target, Nothing)
 

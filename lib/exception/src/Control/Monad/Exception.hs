@@ -3,10 +3,6 @@
 -- catch any exceptions thrown in IO. To catch exceptions thrown in IO, please
 -- use `rethrowFromIO` in `Control.Monad.Exception.IO` to lift these exceptions
 -- into the MonadException framework.
---
--- If you are getting an overlapping instances error in conjunction with use of
--- `rethrowFromIO`, you are probably attempting to rethrow `SomeException`. This
--- is considered bad practice, so please rethrow something more specific.
 -----------------------------------------------------------------------------
 
 {-# LANGUAGE NoStrict #-}

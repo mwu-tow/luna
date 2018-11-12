@@ -6,6 +6,8 @@ module Control.Monad.Exception.IO where
 
 import Prologue
 
+import qualified Control.Exception as Unsafe
+
 import qualified Control.Monad.Exception as Exception
 
 import Control.Monad.Exception (MonadException)
@@ -48,4 +50,11 @@ rethrowFromIO_ = \f -> liftIO (catchEitherIO @e f) >>= \case
 catchEitherIO :: Exception e => IO a -> IO (Either e a)
 catchEitherIO = \f -> catch (Right <$> f) (pure . Left)
 {-# INLINE catchEitherIO #-}
+
+-- Repro Code
+test :: MonadIO m => m ()
+test = Exception.catchAll (\_ -> print ("foo" :: String)) $ expr
+
+expr :: (MonadIO m, MonadException SomeException m) => m ()
+expr = rethrowFromIO @SomeException $ ioError (userError "foo")
 

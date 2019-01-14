@@ -5,7 +5,6 @@ version:    "0.1"
 author:     Luna Team <contact@luna-lang.org>
 maintainer: Luna Team <contact@luna-lang.org>
 
-
 library:
     source-dirs:
         - src
@@ -14,10 +13,13 @@ dependencies:
     - async
     - base
     - containers
+    - ghc
+    - ghc-paths
     - luna-core
     - luna-future
     - mtl
     - prologue
+    - time
 
 default-extensions: *luna-extensions
 

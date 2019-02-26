@@ -17,7 +17,7 @@ jobs:
     options: --cap-add SYS_ADMIN --cap-add MKNOD --device=/dev/fuse --security-opt apparmor:unconfined
   steps:
   - script: >
-      stack build -j1 --interleaved-output --ghc-options="-pgmc gcc-8" --test --copy-bins
+      stack build --interleaved-output --ghc-options="-pgmc gcc-8" --test --copy-bins
       && LD_PRELOAD=/root/.stack/programs/x86_64-linux/ghc-8.4.4/lib/ghc-8.4.4/rts/libffi.so.7 ./dist/bin/public/luna run --target=./stdlib/StdTest
 - job: macOS
   timeoutInMinutes: 0
@@ -26,5 +26,10 @@ jobs:
   steps:
   - script: >
       curl -sSL https://get.haskellstack.org/ | sh
+      && brew update
+      && brew install pkg-config libffi zmq
+      && eval $(brew shellenv)
+      && export LDFLAGS="-L/usr/local/opt/libffi/lib"
+      && export PKG_CONFIG_PATH="/usr/local/opt/libffi/lib/pkgconfig"
       && stack build
       && stack run --target=./stdlib/StdTest

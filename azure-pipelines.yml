@@ -26,4 +26,4 @@ jobs:
   steps:
   - script: >
       curl -sSL https://get.haskellstack.org/ | sh
-      stack build
+      && stack build

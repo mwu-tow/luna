@@ -8,7 +8,7 @@ trigger:
 
 
 jobs:
-- job: Ubuntu Optimized
+- job: Ubuntu_Optimized
   timeoutInMinutes: 0
   pool:
     vmImage: 'Ubuntu-16.04'
@@ -18,7 +18,7 @@ jobs:
   steps:
   - script: stack build --ghc-options="-fno-omit-interface-pragmas -pgmc gcc-8" --test --copy-bins
   - script: LD_PRELOAD=~/.stack/programs/x86_64-linux/ghc-8.4.4/lib/ghc-8.4.4/rts/libffi.so.7 $(Build.SourcesDirectory)/dist/bin/public/luna run --target=$(Build.SourcesDirectory)/stdlib/StdTest
-- job: Ubuntu Default
+- job: Ubuntu_Default
   timeoutInMinutes: 0
   pool:
     vmImage: 'Ubuntu-16.04'

@@ -18,7 +18,7 @@ jobs:
   steps:
   - script: >
       stack build -j1 --interleaved-output --ghc-options="-pgmc gcc-8" --test --copy-bins
-      LD_PRELOAD=/root/.stack/programs/x86_64-linux/ghc-8.4.4/lib/ghc-8.4.4/rts/libffi.so.7 ./dist/bin/public/luna run --target=./stdlib/StdTest
+      && LD_PRELOAD=/root/.stack/programs/x86_64-linux/ghc-8.4.4/lib/ghc-8.4.4/rts/libffi.so.7 ./dist/bin/public/luna run --target=./stdlib/StdTest
 - job: macOS
   timeoutInMinutes: 0
   pool:
@@ -27,3 +27,4 @@ jobs:
   - script: >
       curl -sSL https://get.haskellstack.org/ | sh
       && stack build
+      && stack run --target=./stdlib/StdTest

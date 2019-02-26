@@ -43,6 +43,6 @@ jobs:
       curl -sS -o stack.zip -L --insecure https://get.haskellstack.org/stable/windows-x86_64.zip
       7z x stack.zip -y -oC:\stack stack.exe
       set PATH=%PATH%;C:\stack
-      stack exec -- pacman -S mingw-w64-x86_64-pkg-config mingw-w64-x86_64-libffi
+      stack exec -- pacman --noconfirm -S mingw-w64-x86_64-pkg-config mingw-w64-x86_64-libffi
       stack build
       stack run -- run --target=$(Build.SourcesDirectory)/stdlib/StdTest

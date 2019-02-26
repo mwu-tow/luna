@@ -18,7 +18,7 @@ jobs:
   steps:
   - script: >
       stack build --interleaved-output --ghc-options="-pgmc gcc-8" --test --copy-bins
-      && LD_PRELOAD=/root/.stack/programs/x86_64-linux/ghc-8.4.4/lib/ghc-8.4.4/rts/libffi.so.7 ./dist/bin/public/luna run --target=./stdlib/StdTest
+      && LD_PRELOAD=/root/.stack/programs/x86_64-linux/ghc-8.4.4/lib/ghc-8.4.4/rts/libffi.so.7 $(Build.SourcesDirectory)/dist/bin/public/luna run --target=$(Build.SourcesDirectory)/stdlib/StdTest
 - job: macOS
   timeoutInMinutes: 0
   pool:
@@ -32,4 +32,4 @@ jobs:
       && export LDFLAGS="-L/usr/local/opt/libffi/lib"
       && export PKG_CONFIG_PATH="/usr/local/opt/libffi/lib/pkgconfig"
       && stack build
-      && stack run --target=./stdlib/StdTest
+      && stack run -- run --target=$(Build.SourcesDirectory)/stdlib/StdTest
